@@ -1,0 +1,36 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "training model",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "program": "${workspaceFolder}/trainer/task.py",
+      "args": [
+        "--job-name","keras_tests_003","--train-files","gs://co-oortiz-internal/"],
+      "env": {
+        //"GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/service-key.json",
+        //"SEND_EMAIL": "true",
+      },
+    },
+    {
+      "name": "app",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "program": "${workspaceFolder}/app_src/main.py",
+      "env": {
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/app_src/service-key.json",
+        "GOOGLE_CLOUD_PROJECT": "co-oortiz-internal",
+        "MODEL_NAME": "keras_model",
+        "PORT": "8080",
+      },
+    }
+  ]
+}

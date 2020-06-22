@@ -1,0 +1,14 @@
+README.md
+setup.cfg
+setup.py
+fashion_mnist.egg-info/PKG-INFO
+fashion_mnist.egg-info/SOURCES.txt
+fashion_mnist.egg-info/dependency_links.txt
+fashion_mnist.egg-info/requires.txt
+fashion_mnist.egg-info/top_level.txt
+trainer/__init__.py
+trainer/constants.py
+trainer/data.py
+trainer/eval.py
+trainer/model.py
+trainer/task.py

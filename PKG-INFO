@@ -1,0 +1,11 @@
+Metadata-Version: 1.1
+Name: fashion_mnist
+Version: 0.1
+Summary: Simple keras GCP test
+Home-page: UNKNOWN
+Author: poxstone
+Author-email: pox@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires: tensorflow
