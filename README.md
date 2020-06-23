@@ -19,8 +19,8 @@ PROJECT="co-oortiz-internal";
 BUCKER_NAME="co-oortiz-internal";
 REGION="us-east1";
 MODEL_NAME="keras_model";
+JOB_NAME="keras_test_002";
 MODEL_VERSION="${JOB_NAME}";
-JOB_NAME="keras_tests_001";
 JOB_DIR="gs://${BUCKER_NAME}";
 MODEL_BINARIES="${JOB_DIR}/${MODEL_NAME}/${JOB_NAME}/";
 ```

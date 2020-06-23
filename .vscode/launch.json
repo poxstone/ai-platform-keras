@@ -12,7 +12,7 @@
       "console": "internalConsole",
       "program": "${workspaceFolder}/trainer/task.py",
       "args": [
-        "--job-name","keras_tests_003","--train-files","gs://co-oortiz-internal/"],
+        "--job-name","keras_test_002","--train-files","gs://co-oortiz-internal/"],
       "env": {
         //"GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/service-key.json",
         //"SEND_EMAIL": "true",
