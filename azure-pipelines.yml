@@ -12,32 +12,6 @@ variables:
   BuildConfiguration: 'Release'
   DockerImageName: 'co-oortiz-internal/keras'
 steps:
-- task: DotNetCoreCLI@2
-  displayName: Restore
-  inputs:
-    command: restore
-    projects: '$(RestoreBuildProjects)'
-    feedsToUse: config
-    nugetConfigPath: NuGet.config
-- task: DotNetCoreCLI@2
-  displayName: Build
-  inputs:
-    projects: '$(RestoreBuildProjects)'
-    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
-- task: DotNetCoreCLI@2
-  displayName: Test
-  inputs:
-    command: test
-    projects: '$(TestProjects)'
-    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
-- task: DotNetCoreCLI@2
-  displayName: Publish
-  inputs:
-    command: publish
-    publishWebProjects: True
-    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
-    zipAfterPublish: false
-    modifyOutputPath: false
 - task: CmdLine@1
   displayName: 'Lock image version in deployment.yaml'
   inputs:
