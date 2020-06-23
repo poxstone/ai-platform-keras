@@ -6,7 +6,11 @@ queue:
 trigger:
 - release/2.1
 variables:
-  DockerImageName: 'co-oortiz-internal/keras_test'
+  TargetFramework: 'netcoreapp2.1'
+  RestoreBuildProjects: 'samples/**/*.csproj'
+  TestProjects: 'test/MusicStore.Test/*.csproj'
+  BuildConfiguration: 'Release'
+  DockerImageName: 'co-oortiz-internal/keras'
 steps:
 - task: DotNetCoreCLI@2
   displayName: Restore
@@ -15,3 +19,44 @@ steps:
     projects: '$(RestoreBuildProjects)'
     feedsToUse: config
     nugetConfigPath: NuGet.config
+- task: DotNetCoreCLI@2
+  displayName: Build
+  inputs:
+    projects: '$(RestoreBuildProjects)'
+    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
+- task: DotNetCoreCLI@2
+  displayName: Test
+  inputs:
+    command: test
+    projects: '$(TestProjects)'
+    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
+- task: DotNetCoreCLI@2
+  displayName: Publish
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration $(BuildConfiguration) --framework=$(TargetFramework)'
+    zipAfterPublish: false
+    modifyOutputPath: false
+- task: CmdLine@1
+  displayName: 'Lock image version in deployment.yaml'
+  inputs:
+    filename: /bin/bash
+    arguments: '-c "awk ''{gsub(\"MUSICSTORE_IMAGE\", \"gcr.io/$(DockerImageName):$(Build.BuildId)\", $0); print}'' deployment.yaml > $(build.artifactstagingdirectory)/deployment.yaml"'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
+- task: Docker@0
+  displayName: 'Build image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryConnection: 'gcr-tutorial'
+    imageName: '$(DockerImageName):$(Build.BuildId)'
+- task: Docker@0
+  displayName: 'Publish image'
+  inputs:
+    containerregistrytype: 'Container Registry'
+    dockerRegistryConnection: 'gcr-tutorial'
+    action: 'Push an image'
+    imageName: '$(DockerImageName):$(Build.BuildId)'
