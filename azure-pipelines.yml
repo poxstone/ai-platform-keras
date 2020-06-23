@@ -1,0 +1,17 @@
+resources:
+- repo: self
+  fetchDepth: 1
+queue:
+  name: Hosted Ubuntu 1604
+trigger:
+- release/2.1
+variables:
+  DockerImageName: 'co-oortiz-internal/keras_test'
+steps:
+- task: DotNetCoreCLI@2
+  displayName: Restore
+  inputs:
+    command: restore
+    projects: '$(RestoreBuildProjects)'
+    feedsToUse: config
+    nugetConfigPath: NuGet.config
