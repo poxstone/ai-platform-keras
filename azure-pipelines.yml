@@ -34,3 +34,9 @@ steps:
     dockerRegistryConnection: 'gcr-tutorial'
     action: 'Push an image'
     imageName: '$(DockerImageName):$(Build.BuildId)'
+- task: CmdLine@2
+  inputs:
+    script: |
+      ls -ha
+      date
+      env
