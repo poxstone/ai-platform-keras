@@ -18,4 +18,6 @@ clothes_mode/*
 dist/*
 clothes_model/*
 keras_model/*
+keras_training/keras_model/*
+*/keras_model/*
 service-key.json

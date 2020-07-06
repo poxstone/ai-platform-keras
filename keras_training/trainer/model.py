@@ -7,6 +7,9 @@ from tensorflow.python.lib.io import file_io
 from trainer.constants import CLASS_NAMES, MODEL_NAME, EPOCHS
 from trainer.data import get_data
 
+#from google.colab import auth
+#auth.authenticate_user()
+
 
 def copy_folder(job_version, save_path, gs_path, path=None):
     # save cloud storage
@@ -57,6 +60,12 @@ def train_and_evaluate(args):
 
     # save model for AI Platform
     save_path = '{}/{}'.format(MODEL_NAME, JOB_VERSION)
+    try:
+        os.mkdir(MODEL_NAME)
+    except:
+        pass
+
+    print('-----' + save_path)
     # savelocal
     model.save("{}.h5".format(save_path))
     tf.keras.models.save_model(model, save_path, overwrite=True,

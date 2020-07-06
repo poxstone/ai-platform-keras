@@ -8,25 +8,26 @@
       "name": "training model",
       "type": "python",
       "request": "launch",
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/keras_training",
       "console": "internalConsole",
-      "program": "${workspaceFolder}/trainer/task.py",
+      "program": "${workspaceFolder}/keras_training/trainer/task.py",
       "args": [
-        "--job-name","keras_test_002","--train-files","gs://co-oortiz-internal/"],
+        "--job-name","keras_test_002","--train-files","gs://co-oortiz-internal/"
+      ],
       "env": {
-        //"GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/service-key.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/webservice-key.json",
         //"SEND_EMAIL": "true",
       },
     },
     {
-      "name": "app",
+      "name": "webapi",
       "type": "python",
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
-      "program": "${workspaceFolder}/app_src/main.py",
+      "program": "${workspaceFolder}/keras_webapi/main.py",
       "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/app_src/service-key.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/service-key.json",
         "GOOGLE_CLOUD_PROJECT": "co-oortiz-internal",
         "MODEL_NAME": "keras_model",
         "PORT": "8080",

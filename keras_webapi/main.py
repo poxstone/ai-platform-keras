@@ -1,11 +1,13 @@
 import googleapiclient.discovery
 from flask import Flask
 from flask import request
-from config import PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, MODEL, PORT
+from config import PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, MODEL, APP_PORT
 from utils import get_request_objects, standard_json_response
 import logging
 
-
+logging.info("PROJECT_ID={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
+              APP_PORT={}".format(PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS,
+                                  MODEL, APP_PORT))
 app = Flask(__name__)
 
 
@@ -16,15 +18,18 @@ def predict_json(instances, version=None, model=MODEL, project=PROJECT_ID):
 
     if version is not None:
         name += '/versions/{}'.format(version)
+    
+    response = None
 
     try:
         response = service.projects().predict(name=name,
                                           body={'instances': instances}
                                          ).execute()
+        logging.error(response)
     except Exception as e:
         logging.error('error getting api model: {}'.format(str(e)))
 
-    if 'error' in response:
+    if response and 'error' in response:
         raise RuntimeError(response['error'])
 
     return response['predictions']
@@ -43,4 +48,4 @@ def path_api(version):
     return standard_json_response('ok', data=prediction, to_json=False)
 
 if __name__ == '__main__':
-    app.run(port=PORT)
+    app.run(host='0.0.0.0', port=APP_PORT)
