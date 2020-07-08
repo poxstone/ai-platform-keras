@@ -44,7 +44,7 @@ gcloud ai-platform jobs submit training $JOB_NAME \
 # keras model serving docker
 docker build -t gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION} --build-arg APP_VERSION=2 -f Dockerfile_serve ./ --;
 # run serve
-docker run -it --rm --name keras_serve --net host -p 8080:9090 -p 8500:8500 gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION};
+docker run -it --rm --name keras_serve --net host -e APP_PORT=9090 -p 9090:9090 -p 8500:8500 gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION};
 # curl prediction
-curl -i -X POST -H "Content-Type: application/json" "http://localhost:8080/v1/models/keras_model:predict" -d "${BODY}";
+curl -i -X POST -H "Content-Type: application/json" "http://localhost:9090/v1/models/keras_model:predict" -d "${BODY}";
 ```
