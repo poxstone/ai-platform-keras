@@ -11,6 +11,6 @@ source "../variables.sh";
 
 ## Get prediction
 ```bash
-BODY="$(cat ./keras_model/model_doc/prediction_input.json)";
+BODY="$(cat ./keras_training/model_doc/prediction_input.json)";
 curl -X POST -H 'Content-Type: application/json' "http://localhost:8080/api/keras/${JOB_NAME}" -d "${BODY}";
 ```

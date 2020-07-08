@@ -1,6 +1,19 @@
-FROM tensorflow/tensorflow:nightly
-WORKDIR /root
+FROM ubuntu:18.04
 
-RUN pip install google-cloud-storage cloudml-hypertune pandas
-COPY ./ /root
-ENTRYPOINT ["python", "task.py"]
+ENV APP_PATH='/model'
+ENV APP_VERSION='1'
+ENV APP_PORT=8080
+ENV GS_MODEL_LOCATION='keras_training/keras_model/keras_test_002/'
+WORKDIR $APP_PATH
+
+RUN apt update -y && apt upgrade -y && apt install -y curl gnupg2 python3  python3-dev
+RUN echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt stable tensorflow-model-server tensorflow-model-server-universal" \
+    | tee /etc/apt/sources.list.d/tensorflow-serving.list && curl https://storage.googleapis.com/tensorflow-serving-apt/tensorflow-serving.release.pub.gpg | \
+    apt-key add -; apt-get update -y
+RUN apt install -y tensorflow-model-server && apt upgrade -y tensorflow-model-server
+
+#COPY ./keras_serve $APP_PATH
+COPY ${GS_MODEL_LOCATION} ${APP_PATH}/${APP_VERSION}
+
+# use pd to consume, download from cloud Storage
+ENTRYPOINT tensorflow_model_server --model_base_path=${APP_PATH}/ --port=8500 --rest_api_port=$APP_PORT --model_name=keras_model

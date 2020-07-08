@@ -62,7 +62,7 @@ gcloud ai-platform versions create "${MODEL_VERSION}" \
 
 ## Test keras
 - json to send test 1:
-```json
+```bash
 gcloud ai-platform predict --model "${MODEL_NAME}" --version "${MODEL_VERSION}" --json-instances "model_doc/prediction_input.json";
 ```
 - json to response prediction:

@@ -30,6 +30,7 @@ docker run -itd --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=$
 # keras training
 docker build -t gcr.io/${PROJECT_ID}/keras_training:${MODEL_VERSION} -f Dockerfile_training ./;
 docker run -it --rm gcr.io/${PROJECT_ID}/keras_training:${MODEL_VERSION};
+
 # gcloud training
 gcloud ai-platform jobs submit training $JOB_NAME \
     --stream-logs \
@@ -40,7 +41,10 @@ gcloud ai-platform jobs submit training $JOB_NAME \
     --job-name $JOB_NAME --train-files $JOB_DIR \
     --verbosity DEBUG;
 
-# keras model serving
-docker build -t gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION} -f Dockerfile_serve ./;
-
+# keras model serving docker
+docker build -t gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION} --build-arg APP_VERSION=2 -f Dockerfile_serve ./ --;
+# run serve
+docker run -it --rm --name keras_serve --net host -p 8080:9090 -p 8500:8500 gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION};
+# curl prediction
+curl -i -X POST -H "Content-Type: application/json" "http://localhost:8080/v1/models/keras_model:predict" -d "${BODY}";
 ```

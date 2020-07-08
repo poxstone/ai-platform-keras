@@ -9,4 +9,6 @@ export MODEL_BINARIES="${JOB_DIR}/${MODEL_NAME}/${JOB_NAME}/";
 export MODEL_VERSION="${JOB_NAME}";
 export PORT="8080";
 export REGION="us-east1";
-#export BODY="$(cat ./keras_model/model_doc/prediction_input.json)";
+
+export BODY_PATH="./keras_training/model_doc/prediction_input.json";
+export BODY=`[[ -e "${BODY_PATH}" ]] && echo "$(cat ${BODY_PATH})" || echo 'NONE'`;

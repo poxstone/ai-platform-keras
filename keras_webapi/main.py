@@ -10,6 +10,9 @@ logging.info("PROJECT_ID={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
                                   MODEL, APP_PORT))
 app = Flask(__name__)
 
+def predict_host_json(instances, version=None, model=MODEL, project=PROJECT_ID):
+
+    
 
 def predict_json(instances, version=None, model=MODEL, project=PROJECT_ID):
     # GOOGLE_APPLICATION_CREDENTIALS=<path_to_service_account_file>
@@ -40,6 +43,14 @@ def path_root():
     return "ok"
 
 @app.route('/api/keras/<version>', methods=['POST'])
+def path_api(version):
+    req_post = get_request_objects(request)['post']
+    instances = req_post['instances'] if 'instances' in req_post else ''
+    # businness logic
+    prediction = predict_json(instances=instances, version=version)
+    return standard_json_response('ok', data=prediction, to_json=False)
+
+@app.route('/api/host-keras/', methods=['POST'])
 def path_api(version):
     req_post = get_request_objects(request)['post']
     instances = req_post['instances'] if 'instances' in req_post else ''
