@@ -1,17 +1,23 @@
 import argparse
-from trainer.model import train_and_evaluate
+# import docker or local
+try:
+    from trainer.model_train import training # for docker
+except ImportError:
+    from model_train import training  # for local debug
+
 
 if __name__ == '__main__':
+    # Parse parameters
     parser = argparse.ArgumentParser()
-
     parser.add_argument(
-        '--job-name',
+        '--job-version',
         nargs='+',
         help='Name for trainer job and filder')
     parser.add_argument(
-        '--train-files',
+        '--trainded-dir',
         nargs='+',
         help='Training file local or GCS')
-
     args, _ = parser.parse_known_args()
-    train_and_evaluate(args)
+
+    # Send to train
+    training(args)

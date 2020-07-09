@@ -1,21 +1,39 @@
-# app get model
+# Api web model to predict
 
+> **Note:** Previously execute ../README.md steps 1 and 2, enter to dir:
+  </br> `cd "./keras_webapi"`
+
+
+## 1. Install (optional)
+Setup is builder python (./build and ./dist)
 ```bash
-pip install -r requirements.txt;
+python setup.py install;
 ```
 
-## variables
+## 2. Run code
 ```bash
-source "../variables.sh";
+# previous load enviroment variables with ../README.md steps 1 and 2
+python main.py;
 ```
 
-## Get prediction
+## 3. Build and run container
+- Build
 ```bash
+docker build -t "gcr.io/${PROJECT_ID}/keras_webapi:${MODEL_VERSION}" -f "Dockerfile" "./";
+```
+- Run
+```bash
+docker run -it --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=${PROJECT_ID}" \
+  "gcr.io/${PROJECT_ID}/keras_webapi:${MODEL_VERSION}";
+```
 
-BODY="$(cat ./keras_training/model_doc/prediction_input.json)";
-# to google
-curl -X POST -H 'Content-Type: application/json' "http://localhost:8080/api/keras/${JOB_NAME}" -d "${BODY}";
+## 4. Get prediction
+- To google AI Platform
+```bash
+curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras/${JOB_NAME}" -d "${BODY}";
+```
 
-# to docker server
-curl -X POST -H 'Content-Type: application/json' "http://localhost:8080/api/keras-host" -d "${BODY}";
+- To docker server
+```bash
+curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras-host" -d "${BODY}";
 ```

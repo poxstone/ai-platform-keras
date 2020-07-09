@@ -1,6 +1,4 @@
-ARG PYTHON_VERSION=3.7-alpine
-
-FROM python:${PYTHON_VERSION}
+FROM python:3.7-alpine
 
 ENV APP_PORT=8080
 ENV APP_PATH="/app"
@@ -9,7 +7,7 @@ ENV GUNICORN_CALLABLE="app"
 ENV GUNICORN_USER="user_gun"
 ENV WORKERS=5
 ENV TIMEOUT=240
-ENV GOOGLE_APPLICATION_CREDENTIprALS="${APP_PATH}/service-key.json"
+ENV GOOGLE_APPLICATION_CREDENTIALS="${APP_PATH}/service-key.json"
 #ENV GOOGLE_CLOUD_PROJECT="";
 
 # builds
@@ -21,7 +19,7 @@ RUN apk add --no-cache python3 \
     && pip3 install --upgrade pip gunicorn \
     && adduser -D -h $APP_PATH $GUNICORN_USER
 
-COPY ./keras_webapi/ $APP_PATH
+COPY ./ $APP_PATH
 RUN pip3 install -r $APP_PATH/requirements.txt
 
 EXPOSE $APP_PORT

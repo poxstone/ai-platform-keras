@@ -1,12 +1,12 @@
 import googleapiclient.discovery
 import requests
+import logging
 import json
 from flask import Flask
 from flask import request
 from config import PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, MODEL, APP_PORT, \
     LOCAL_ML_HOST, LOCAL_ML_PORT, LOCAL_ML_NAME, LOCAL_ML_VERSION
 from utils import get_request_objects, standard_json_response
-import logging
 
 logging.info("PROJECT_ID={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
               APP_PORT={}".format(PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS,
@@ -14,11 +14,12 @@ logging.info("PROJECT_ID={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
 app = Flask(__name__)
 
 
-def predict_host_json(instances, version=LOCAL_ML_VERSION, model=LOCAL_ML_NAME):
+def predict_host_json(instances, model=LOCAL_ML_NAME):
     response = None
     body = {'instances': instances}
-    ml_host = 'http://{}:{}/v{}/models/{}:predict'.format(LOCAL_ML_HOST,
-                                                LOCAL_ML_PORT, version, model)
+    ml_host = 'http://{}:{}/v1/models/{}:predict'.format(LOCAL_ML_HOST,
+                                                LOCAL_ML_PORT, model)
+    logging.info('ml_host={}'.format(ml_host))
     try:
         res = requests.post(ml_host, json=body)
         response = json.loads(res.text)

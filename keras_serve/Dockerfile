@@ -1,9 +1,11 @@
 FROM ubuntu:18.04
 
-ENV APP_PATH='/model'
-ENV APP_VERSION='1'
+ARG MODEL_NAME="keras_model"
+ARG MODEL_LOCATION="./keras_training/keras_model/1/"
+
+ENV APP_PATH="/model"
+ENV MODEL_NAME="${MODEL_NAME}"
 ENV APP_PORT=9090
-ENV MODEL_LOCATION='./keras_training/keras_model/1/'
 
 WORKDIR $APP_PATH
 
@@ -13,8 +15,7 @@ RUN echo "deb [arch=amd64] http://storage.googleapis.com/tensorflow-serving-apt 
     apt-key add -; apt-get update -y
 RUN apt install -y tensorflow-model-server && apt upgrade -y tensorflow-model-server
 
-#COPY ./keras_serve $APP_PATH
-COPY ${MODEL_LOCATION} ${APP_PATH}/${APP_VERSION}
+COPY ${MODEL_LOCATION} ${APP_PATH}/1
 
 # use pd to consume, download from cloud Storage
-ENTRYPOINT tensorflow_model_server --model_base_path=${APP_PATH}/ --port=8500 --rest_api_port=$APP_PORT --model_name=keras_model
+ENTRYPOINT tensorflow_model_server --model_base_path=${APP_PATH}/ --port=8500 --rest_api_port=$APP_PORT --model_name=${MODEL_NAME}
