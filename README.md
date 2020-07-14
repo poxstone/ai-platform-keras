@@ -90,7 +90,6 @@ gcloud ai-platform versions create "${JOB_NAME}" --project "${PROJECT_ID}" \
   --origin "${MODEL_BINARIES}" \
   --runtime-version "2.1" \
   --python-version "3.7";
-
 ```
 
 
