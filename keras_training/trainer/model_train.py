@@ -1,5 +1,7 @@
 # TensorFlow and tf.keras
 import os
+import logging
+import random
 import tensorflow as tf
 import re
 from tensorflow import keras
@@ -13,7 +15,11 @@ except ImportError:
     from data import get_data
 
 
+random.seed(666)
+
 def save_folder(job_version, save_path, gs_path, path=None):
+    if not gs_path.endswith('/'):
+        gs_path = '{}/'.format(gs_path)
     # save cloud storage
     if not path:
         path = '{}'.format(save_path)
@@ -29,8 +35,9 @@ def save_folder(job_version, save_path, gs_path, path=None):
                         gs_path=gs_path, path=concat_name)
         else:
             with file_io.FileIO(concat_name, mode='rb') as input_f:
-                with file_io.FileIO(os.path.join(gs_path, concat_name),
-                    mode='w+') as fp:
+                gs_write = os.path.join(gs_path, concat_name)
+                print("gs_write: " + gs_write)
+                with file_io.FileIO(gs_write, mode='w+') as fp:
                     fp.write(input_f.read())
     return True
 
@@ -69,7 +76,7 @@ def training(args):
     except:
         pass
 
-    print('-----' + save_path)
+    print('----- {}'.format(save_path))
     # savelocal
     model.save("{}.h5".format(save_path))
     tf.keras.models.save_model(model, save_path, overwrite=True,
@@ -78,18 +85,37 @@ def training(args):
     save_folder(job_version=JOB_VERSION, save_path=save_path, gs_path=GS_BUCKET)
     export_path = '{}/{}'.format(GS_BUCKET, save_path)
     print(export_path)
-    return export_path
-    
 
-def evaluate():
-    keras_estimator = tf.keras.estimator.model_to_estimator(keras_model=model,
-                        model_dir=constants.MODEL_NAME)
-    # define function
-    serving_fn = tf.estimator.export.build_raw_serving_input_receiver_fn(
-        {'dense_input':  model.input}
-    )
-    export_path = keras_estimator.export_saved_model(path_name,
-                        serving_input_receiver_fn=serving_fn).decode('utf-8')
-    print(export_path)
-    # new
-    est_mobilenet_v2 = tf.keras.estimator.model_to_estimator(keras_model=model)
+    # do prediction test
+    evaluate(args)
+    
+    return export_path
+
+
+def evaluate(args):
+    import numpy as np
+
+    JOB_VERSION = args.job_version[0]
+    if args.img_index and len(args.img_index):
+        IMG_INDEX = args.img_index[0]
+    else:
+        IMG_INDEX = 0
+    
+    dir_model = os.path.join(constants.MODEL_NAME, JOB_VERSION)
+    model = tf.keras.models.load_model(dir_model)
+    
+    # make prediction raw
+    probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
+
+    # load dataset
+    train_images, train_labels, test_images, test_labels = get_data()
+
+    # set individuals images
+    i = int(IMG_INDEX)
+    img_array = test_images[i:i+1]  # to stact  img_array[0]
+    predictions = probability_model.predict(img_array)
+
+    # prediction max range
+    label = constants.CLASS_NAMES[np.argmax(predictions[0])]
+    print("Predictions: {}".format(str(predictions[0])))
+    print("Label: {}".format(label))

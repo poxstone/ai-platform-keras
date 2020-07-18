@@ -12,12 +12,22 @@
       "console": "internalConsole",
       "program": "${workspaceFolder}/keras_training/trainer/task.py",
       "args": [
-        "--job-name","5","--trainded-dir","gs://co-oortiz-internal/"
+        "--job-version", "6", "--trainded-dir", "gs://co-oortiz-internal/"
       ],
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/webservice-key.json",
-        //"SEND_EMAIL": "true",
       },
+    },
+    {
+      "name": "evaluate model (local)",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/keras_training",
+      "console": "internalConsole",
+      "program": "${workspaceFolder}/keras_training/trainer/task.py",
+      "args": [
+        "--job-version", "6", "--is-test", "true", "--img-index", "0"
+      ]
     },
     {
       "name": "webapi",
@@ -32,6 +42,6 @@
         "MODEL_NAME": "keras_model",
         "PORT": "8080",
       },
-    }
+    },
   ]
 }

@@ -16,9 +16,11 @@ python setup.py install;
 
 ### 2.1 Train local
 ```bash
-python -m trainer.task --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}" \
-  -- \
-  --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}";
+python -m trainer.task --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}"
+```
+#### 2.1.2 Test local
+```bash
+python -m trainer.task --job-version "${MODEL_VERSION}" --is-test "true" --img-index 0;
 ```
 
 ### 2.2 Train local with AI Platform
@@ -67,7 +69,7 @@ docker push "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}";
 # optional build on GCP and store in GCR
 export DOCKERFILE="./Dockerfile";
 grep "${DOCKERFILE}" -ne "^ARG MODEL_VERSION" | awk -F ":" '{print($1)}' | xargs -I {} sed -i {}'s/.\+/ARG MODEL_VERSION="'${MODEL_VERSION}'"/' "${DOCKERFILE}";
-grep "${DOCKERFILE}" -ne "^ARG JOB_DIR" | awk -F ":" '{print($1)}' | xargs -I {} sed -i {}'s/.\+/ARG JOB_DIR="'${BUCKER_NAME}'"/' "${DOCKERFILE}";
+grep "${DOCKERFILE}" -ne "^ARG JOB_DIR" | awk -F ":" '{print($1)}' | xargs -I {} sed -i {}'s/.\+/ARG JOB_DIR="'${BUCKET_NAME}'"/' "${DOCKERFILE}";
 gcloud builds submit --tag "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}" "./"  --project "${PROJECT_ID}";
 ```
 
@@ -96,6 +98,8 @@ gcloud ai-platform versions create "${JOB_NAME}" --project "${PROJECT_ID}" \
 ```
 
 ## 3. Test Model
+
+> **Note** The arrays images is taked from "keras.datasets.fashion_mnist" test_images, index 0 and 1
 - json to send test 1 use page(use UI):
   - https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${PROJECT_ID}
 ```bash

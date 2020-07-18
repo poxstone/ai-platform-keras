@@ -17,7 +17,7 @@ source ./venv/bin/activate;
 # install for weapp
 pip install -r ./keras_webapi/requirements.txt;
 # install for model
-pip install -r ./keras_training/requiremetns.txt;
+pip install -r ./keras_training/requirements.txt;
 ```
 
 
@@ -66,7 +66,7 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${PROJECT_ID}" 
 ```bash
 # download model from GS
 mkdir -p "./${MODEL_NAME}";
-gsutil cp -r "gs://${BUCKER_NAME}/${MODEL_NAME}/${MODEL_VERSION}" "./${MODEL_NAME}/";
+gsutil cp -r "gs://${BUCKET_NAME}/${MODEL_NAME}/${MODEL_VERSION}" "./${MODEL_NAME}/";
 # build
 docker build -t "gcr.io/${PROJECT_ID}/keras_serve:${MODEL_VERSION}" \
   --build-arg "MODEL_NAME=${MODEL_NAME}" \
@@ -90,6 +90,9 @@ gcloud ai-platform versions create "${JOB_NAME}" --project "${PROJECT_ID}" \
   --origin "${MODEL_BINARIES}" \
   --runtime-version "2.1" \
   --python-version "3.7";
+
+# enter to UI page to tests
+echo "https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${PROJECT_ID}";
 ```
 
 
@@ -109,4 +112,24 @@ docker run -it --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=${
 curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras/${JOB_NAME}" -d "${BODY}";
 # to Docker
 curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras-host" -d "${BODY}";
+```
+
+## Predictions Review
+
+| **platform**    | 9                 | 7                  | 8                   | 5                  | 10                  | 2                  | 4                  | 6                  | 6                  | 1                |
+|----------------:|-------------------|:------------------:|--------------------:|-------------------:|--------------------:|-------------------:|-------------------:|-------------------:|-------------------:|-----------------:|
+| **Local**       | 1.1202626e-07     | 3.1044985e-07      | 1.1162208e-07       | 1.0275202e-06      | 4.7845255e-08       | 4.6996918e-04      | 1.3370330e-06      | 1.3858461e-02      | 4.8601555e-07      | 9.8566818e-01    |
+| **Container**   | -10.4870024       | -9.46771336        | -10.4906168         | -8.27083111        | -11.3377647         | -2.14531326        | -8.00752735        | 1.23867071         | -9.01949501        | 5.5030942        |
+| **GCP**         | -10.4870023727417 | -9.467713356018066 | -10.490616798400879 | -8.270831108093262 | -11.337764739990234 | -2.145313262939453 | -8.007527351379395 | 1.2386707067489624 | -9.019495010375977 | 5.50309419631958 |
+```json
+
+
+
+
+# from ide
+[,,,,,,      ,      ,      ,      ]
+# from container
+[,,,,,,        ,        ,         ,        ]
+# from AI Platform
+[,,,,, , , , ,  ]
 ```
