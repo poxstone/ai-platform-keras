@@ -28,7 +28,7 @@ python -m trainer.task --job-version "${MODEL_VERSION}" --is-test "true" --img-i
 gcloud ai-platform local train --package-path trainer \
   --module-name trainer.task \
   -- \
-  --job-version "${JOB_NAME}" --trainded-dir "${BUCKET_NAME}";
+  --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}";
 ```
 
 ### 2.3 Send to AI Platform to train
