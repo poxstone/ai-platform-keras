@@ -9,11 +9,11 @@ chmod +x entrypoint.sh;
 ```
 
 ```bash
-PROJECT_ID="my-project-id";
+GOOGLE_CLOUD_PROJECT="my-project-id";
 R_VERSION="1.0";
 
 # build
-docker build -t "gcr.io/${PROJECT_ID}/r_script:${R_VERSION}" -f Dockerfile ./;
+docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/r_script:${R_VERSION}" -f Dockerfile ./;
 # run
-docker run -it --rm --net host "gcr.io/${PROJECT_ID}/r_script:${R_VERSION}";
+docker run -it --rm --net host "gcr.io/${GOOGLE_CLOUD_PROJECT}/r_script:${R_VERSION}";
 ```

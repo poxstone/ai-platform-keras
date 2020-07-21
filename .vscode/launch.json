@@ -12,7 +12,7 @@
       "console": "internalConsole",
       "program": "${workspaceFolder}/keras_training/trainer/task.py",
       "args": [
-        "--job-version", "6", "--trainded-dir", "gs://co-oortiz-internal/"
+        "--job-version", "6", "--trainded-dir", "gs://co-oortiz-internal-model/"
       ],
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/webservice-key.json",

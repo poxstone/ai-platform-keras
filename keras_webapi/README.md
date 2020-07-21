@@ -19,12 +19,12 @@ python main.py;
 ## 3. Build and run container
 - Build
 ```bash
-docker build -t "gcr.io/${PROJECT_ID}/keras_webapi:${MODEL_VERSION}" -f "Dockerfile" "./";
+docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_webapi:${MODEL_VERSION}" -f "Dockerfile" "./";
 ```
 - Run
 ```bash
-docker run -it --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=${PROJECT_ID}" \
-  "gcr.io/${PROJECT_ID}/keras_webapi:${MODEL_VERSION}";
+docker run -it --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}" \
+  "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_webapi:${MODEL_VERSION}";
 ```
 
 ## 4. Get prediction

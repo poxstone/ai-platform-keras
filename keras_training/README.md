@@ -33,7 +33,7 @@ gcloud ai-platform local train --package-path trainer \
 
 ### 2.3 Send to AI Platform to train
 ```bash
-gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${PROJECT_ID}" \
+gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${GOOGLE_CLOUD_PROJECT}" \
   --stream-logs \
   --python-version 3.7 \
   --runtime-version 2.1 \
@@ -49,14 +49,14 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${PROJECT_ID}" 
 ### 2.4 Send ___container___ to AI Platform to train
 - Build container
 ```bash
-docker build -t "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}" \
+docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}" \
   --build-arg "MODEL_VERSION=${MODEL_VERSION}" \
   --build-arg "JOB_DIR=${JOB_DIR}" -f "Dockerfile" "./";
 ```
 
 - Run container local
 ```bash
-docker run -it --rm "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}";
+docker run -it --rm "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}";
 ```
 
 - Upload images to Google Container Registry
@@ -64,21 +64,21 @@ docker run -it --rm "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}";
 # authorize docker
 gcloud auth configure-docker;
 # push container
-docker push "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}";
+docker push "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}";
 
 # optional build on GCP and store in GCR
 export DOCKERFILE="./Dockerfile";
 grep "${DOCKERFILE}" -ne "^ARG MODEL_VERSION" | awk -F ":" '{print($1)}' | xargs -I {} sed -i {}'s/.\+/ARG MODEL_VERSION="'${MODEL_VERSION}'"/' "${DOCKERFILE}";
 grep "${DOCKERFILE}" -ne "^ARG JOB_DIR" | awk -F ":" '{print($1)}' | xargs -I {} sed -i {}'s/.\+/ARG JOB_DIR="'${BUCKET_NAME}'"/' "${DOCKERFILE}";
-gcloud builds submit --tag "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}" "./"  --project "${PROJECT_ID}";
+gcloud builds submit --tag "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}" "./"  --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 
 - Train container on AI Platform
 ```bash
-gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${PROJECT_ID}" \
+gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${GOOGLE_CLOUD_PROJECT}" \
   --stream-logs \
   --region "${REGION}" \
-  --master-image-uri "gcr.io/${PROJECT_ID}/${MODEL_NAME}:${MODEL_VERSION}" \
+  --master-image-uri "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}" \
   -- \
   --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}" \
   --verbosity DEBUG;
@@ -87,9 +87,9 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${PROJECT_ID}" 
 ## 3. Create AI Platform model and version
 ```bash
 # create model
-gcloud ai-platform models create "${MODEL_NAME}" --regions "${REGION}" --project "${PROJECT_ID}";
+gcloud ai-platform models create "${MODEL_NAME}" --regions "${REGION}" --project "${GOOGLE_CLOUD_PROJECT}";
 # create version
-gcloud ai-platform versions create "${JOB_NAME}" --project "${PROJECT_ID}" \
+gcloud ai-platform versions create "${JOB_NAME}" --project "${GOOGLE_CLOUD_PROJECT}" \
   --model "${MODEL_NAME}" \
   --framework "tensorflow" \
   --origin "${MODEL_BINARIES}" \
@@ -101,11 +101,11 @@ gcloud ai-platform versions create "${JOB_NAME}" --project "${PROJECT_ID}" \
 
 > **Note** The arrays images is taked from "keras.datasets.fashion_mnist" test_images, index 0 and 1
 - json to send test 1 use page(use UI):
-  - https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${PROJECT_ID}
+  - https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${GOOGLE_CLOUD_PROJECT}
 ```bash
 # not works, use UI!
 gcloud ai-platform predict --model "${MODEL_NAME}" --version "${JOB_NAME}" \
-  --json-instances "${BODY_PATH}" --project "${PROJECT_ID}";
+  --json-instances "${BODY_PATH}" --project "${GOOGLE_CLOUD_PROJECT}";
 ```
 - json to response prediction:
 ```json

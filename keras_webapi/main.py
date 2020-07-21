@@ -4,12 +4,12 @@ import logging
 import json
 from flask import Flask
 from flask import request
-from config import PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS, MODEL, APP_PORT, \
+from config import GOOGLE_CLOUD_PROJECT, GOOGLE_APPLICATION_CREDENTIALS, MODEL, APP_PORT, \
     LOCAL_ML_HOST, LOCAL_ML_PORT, LOCAL_ML_NAME, LOCAL_ML_VERSION
 from utils import get_request_objects, standard_json_response
 
-logging.info("PROJECT_ID={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
-              APP_PORT={}".format(PROJECT_ID, GOOGLE_APPLICATION_CREDENTIALS,
+logging.info("GOOGLE_CLOUD_PROJECT={}, GOOGLE_APPLICATION_CREDENTIALS={}, MODEL={}, \
+              APP_PORT={}".format(GOOGLE_CLOUD_PROJECT, GOOGLE_APPLICATION_CREDENTIALS,
                                   MODEL, APP_PORT))
 app = Flask(__name__)
 
@@ -29,7 +29,7 @@ def predict_host_json(instances, model=LOCAL_ML_NAME):
     return response['predictions']
 
 
-def predict_json(instances, version=None, model=MODEL, project=PROJECT_ID):
+def predict_json(instances, version=None, model=MODEL, project=GOOGLE_CLOUD_PROJECT):
     # GOOGLE_APPLICATION_CREDENTIALS=<path_to_service_account_file>
     service = googleapiclient.discovery.build('ml', 'v1')
     name = 'projects/{}/models/{}'.format(project, model)

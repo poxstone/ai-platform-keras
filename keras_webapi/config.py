@@ -8,7 +8,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 ROOT_DIR = sys.path[0]
 env = os.environ
-PROJECT_ID = env['GOOGLE_CLOUD_PROJECT'] if 'GOOGLE_CLOUD_PROJECT' in env \
+GOOGLE_CLOUD_PROJECT = env['GOOGLE_CLOUD_PROJECT'] if 'GOOGLE_CLOUD_PROJECT' in env \
                                          else ''
 GOOGLE_APPLICATION_CREDENTIALS = env['GOOGLE_APPLICATION_CREDENTIALS'] if \
                                 'GOOGLE_APPLICATION_CREDENTIALS' in env else ''
