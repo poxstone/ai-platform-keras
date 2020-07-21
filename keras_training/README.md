@@ -97,11 +97,12 @@ gcloud ai-platform versions create "${JOB_NAME}" --project "${GOOGLE_CLOUD_PROJE
   --python-version "3.7";
 ```
 
+
 ## 3. Test Model
 
 > **Note** The arrays images is taked from "keras.datasets.fashion_mnist" test_images, index 0 and 1
 - json to send test 1 use page(use UI):
-  - https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${GOOGLE_CLOUD_PROJECT}
+  - https://console.cloud.google.com/ai-plaecho tform/models/${MODEL_NAME}/versions/${JOB_NAME}/test-and-use?project=${GOOGLE_CLOUD_PROJECT}
 ```bash
 # not works, use UI!
 gcloud ai-platform predict --model "${MODEL_NAME}" --version "${JOB_NAME}" \

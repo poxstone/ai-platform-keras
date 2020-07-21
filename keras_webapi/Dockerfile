@@ -21,6 +21,7 @@ RUN apk add --no-cache python3 \
 
 COPY ./ $APP_PATH
 RUN pip3 install -r $APP_PATH/requirements.txt
+RUN chown -R ${GUNICORN_USER}:${GUNICORN_USER} $APP_PATH
 
 EXPOSE $APP_PORT
 

@@ -1,7 +1,7 @@
 FROM tensorflow/tensorflow:nightly
 
 ARG KEY_SERVICE="./service-key.json"
-ARG MODEL_VERSION="3"
+ARG MODEL_VERSION="7"
 ARG JOB_DIR="co-oortiz-internal-model"
 
 ENV APP_PATH="/app"
