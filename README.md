@@ -27,7 +27,19 @@ Edit and load variables for all commands run.
 ```bash
 source ./variables.sh;
 ```
+Create service account
+```bash
+# create service account
+gcloud iam service-accounts create "${SERVICE_ACCOUNT_NAME}" --display-name "${SERVICE_ACCOUNT_NAME}";
+# add permissions
+gcloud projects add-iam-policy-binding "${GOOGLE_CLOUD_PROJECT}" --member "serviceAccount:${SERVICE_ACCOUNT_EMAIL}" --role roles/editor;
+# create key
+gcloud iam service-accounts keys create "${SERVICE_KEY_FILE}" --iam-account "${SERVICE_ACCOUNT_EMAIL}";
 
+# move to folders
+cp "${SERVICE_KEY_FILE}" "keras_training/";
+cp "${SERVICE_KEY_FILE}" "keras_webapi/";
+```
 
 ## 3. Build and run containers
 

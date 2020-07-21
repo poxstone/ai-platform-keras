@@ -1,6 +1,9 @@
 export GOOGLE_CLOUD_PROJECT="co-oortiz-internal";
 export BUCKET_NAME="co-oortiz-internal-model";
-export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/keras_webapi/service-key.json";
+export SERVICE_ACCOUNT_NAME="ai-platform";
+export SERVICE_ACCOUNT_EMAIL="${SERVICE_ACCOUNT_NAME}@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com";
+export SERVICE_KEY_FILE="service-key.json";
+export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/keras_webapi/${SERVICE_KEY_FILE}";
 
 export MODEL_NAME="keras_model";
 export MODEL_VERSION="7";

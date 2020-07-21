@@ -21,6 +21,7 @@ keras_model/*
 keras_training/keras_model/*
 */keras_model/*
 */service-key.json
+service-key.json
 */build/*
 */dist/*
 */fashion_mnist.egg-info/*
