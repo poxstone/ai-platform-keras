@@ -23,8 +23,10 @@ def get_request_objects(request, method=None):
     return response
 
 
-def standard_json_response(message='ok', code=200, data='none', to_json=True,success=True):
-    message_json = {'message': message, 'data': data, 'code': code, 'success': success}
+def standard_json_response(message='ok', code=200, data='none', to_json=True,
+                           success=True):
+    message_json = {'message': message, 'data': data, 'code': code,
+                    'success': success}
     if to_json:
         return jsonify(message_json)
     return message_json

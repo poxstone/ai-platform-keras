@@ -1,9 +1,9 @@
 # TensorFlow and tf.keras
+#import logging
 import os
-import logging
 import random
-import tensorflow as tf
 import re
+import tensorflow as tf
 from tensorflow import keras
 from tensorflow.python.lib.io import file_io
 
@@ -48,6 +48,7 @@ def training(args):
     GS_BUCKET = re.sub('/$', '', args.trainded_dir[0])
     if not GS_BUCKET.startswith('gs://'):
         GS_BUCKET = 'gs://{}'.format(GS_BUCKET)
+    
     # load test dataset
     train_images, train_labels, test_images, test_labels = get_data()
 

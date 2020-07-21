@@ -16,7 +16,7 @@ python setup.py install;
 
 ### 2.1 Train local
 ```bash
-python -m trainer.task --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}"
+python -m trainer.task --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}";
 ```
 #### 2.1.2 Test local
 ```bash
