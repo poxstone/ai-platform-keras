@@ -4,7 +4,8 @@
 - **keras_serving:** Serve model on Docker container
 - **keras_webapi:** Expose Endpoints to consumer AI Platform model and Docker serving model 
 
-> **Original:** [keras census](https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census/keras)
+> **NoteBook** [Keras - Classify images of clothing](https://www.tensorflow.org/tutorials/keras/classification)
+> **Original:** [keras census GitHub](https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census/keras) <br>
 
 
 ## 1. Install enviroment python
@@ -134,14 +135,3 @@ curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/k
 | **Container**   | -10.4870024       | -9.46771336        | -10.4906168         | -8.27083111        | -11.3377647         | -2.14531326        | -8.00752735        | 1.23867071         | -9.01949501        | 5.5030942        |
 | **GCP**         | -10.4870023727417 | -9.467713356018066 | -10.490616798400879 | -8.270831108093262 | -11.337764739990234 | -2.145313262939453 | -8.007527351379395 | 1.2386707067489624 | -9.019495010375977 | 5.50309419631958 |
 ```json
-
-
-
-
-# from ide
-[,,,,,,      ,      ,      ,      ]
-# from container
-[,,,,,,        ,        ,         ,        ]
-# from AI Platform
-[,,,,, , , , ,  ]
-```
