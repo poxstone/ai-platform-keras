@@ -6,7 +6,7 @@ export SERVICE_KEY_FILE="service-key.json";
 export GOOGLE_APPLICATION_CREDENTIALS="${PWD}/keras_webapi/${SERVICE_KEY_FILE}";
 
 export MODEL_NAME="keras_model";
-export MODEL_VERSION="7";
+export MODEL_VERSION="8";
 export JOB_NAME="${MODEL_NAME}_${MODEL_VERSION}";
 export JOB_DIR="gs://${BUCKET_NAME}";
 export MODEL_BINARIES="${JOB_DIR}/${MODEL_NAME}/${MODEL_VERSION}/";

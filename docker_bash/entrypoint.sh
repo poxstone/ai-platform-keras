@@ -3,7 +3,7 @@
 INTER_SQL="intermediate.sql";
 
 echo "Run mysql query";
-#mysql -u "${DB_USER}" -p"${DB_PASSWD}" -h "${DB_HOST}" -D "${DB_DB}" < "query_a.sql" | sed 's/\t/,/g' > "${INTER_SQL}" && \
+mysql -u "${DB_USER}" -p"${DB_PASSWD}" -h "${DB_HOST}" -D "${DB_DB}" < "query_a.sql" | sed 's/\t/,/g' > "${INTER_SQL}" && \
 
 echo "Run R scripting";
 Rscript main.r;
