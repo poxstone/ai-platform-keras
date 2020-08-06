@@ -17,8 +17,8 @@ fashion_mnist.egg-info/*
 clothes_mode/*
 dist/*
 clothes_model/*
-keras_model/*
-keras_training/keras_model/*
+project/keras_model/*
+project/ml_training/keras_model/*
 */keras_model/*
 */service-key.json
 service-key.json

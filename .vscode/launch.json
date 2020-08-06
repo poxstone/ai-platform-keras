@@ -8,23 +8,23 @@
       "name": "training model",
       "type": "python",
       "request": "launch",
-      "cwd": "${workspaceFolder}/keras_training",
+      "cwd": "${workspaceFolder}/project/ml_training",
       "console": "internalConsole",
-      "program": "${workspaceFolder}/keras_training/trainer/task.py",
+      "program": "${workspaceFolder}/project/ml_training/trainer/task.py",
       "args": [
         "--job-version", "8", "--trainded-dir", "gs://co-oortiz-internal-model/"
       ],
       "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/webservice-key.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/project/webservice-key.json",
       },
     },
     {
       "name": "evaluate model (local)",
       "type": "python",
       "request": "launch",
-      "cwd": "${workspaceFolder}/keras_training",
+      "cwd": "${workspaceFolder}/project/ml_training",
       "console": "internalConsole",
-      "program": "${workspaceFolder}/keras_training/trainer/task.py",
+      "program": "${workspaceFolder}/project/ml_training/trainer/task.py",
       "args": [
         "--job-version", "6", "--is-test", "true", "--img-index", "0"
       ]
@@ -35,9 +35,9 @@
       "request": "launch",
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
-      "program": "${workspaceFolder}/keras_webapi/main.py",
+      "program": "${workspaceFolder}/project/main.py",
       "env": {
-        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/keras_webapi/service-key.json",
+        "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/project/service-key.json",
         "GOOGLE_CLOUD_PROJECT": "co-oortiz-internal",
         "MODEL_NAME": "keras_model",
         "PORT": "8080",

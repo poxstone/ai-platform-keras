@@ -1,7 +1,7 @@
 ## keras model to AI Platform python 3.7
 
 > **Note:** Previously execute ../README.md steps 1 and 2 and:
-  </br> `cd "./keras_training"`
+  </br> `cd "./ml_training"`
 * **Original:** [keras census](https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census/keras)
 
 

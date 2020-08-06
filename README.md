@@ -1,8 +1,8 @@
 # AI Platform project (keras sample)
 
-- **keras_training:** Train model local, docker container and AI Platform (Jobs and Model)
-- **keras_serving:** Serve model on Docker container
-- **keras_webapi:** Expose Endpoints to consumer AI Platform model and Docker serving model 
+- **project/ml_training:** Train model local, docker container and AI Platform (Jobs and Model)
+- **project/ml_serving:** Serve model on Docker container
+- **project/.:** Expose Endpoints to consumer AI Platform model and Docker serving model 
 
 > **NoteBook** [Keras - Classify images of clothing](https://www.tensorflow.org/tutorials/keras/classification)
 > **Original:** [keras census GitHub](https://github.com/GoogleCloudPlatform/cloudml-samples/tree/master/census/keras) <br>
@@ -10,15 +10,15 @@
 
 ## 1. Install enviroment python
 
-- Create new service account download json key and save it into keras_webapi and keras_training
+- Create new service account download json key and save it into project/ and ml_training
 - Execute following commands
 ```bash
 python3 -m virtualenv ./venv;
 source ./venv/bin/activate;
 # install for weapp
-pip install -r ./keras_webapi/requirements.txt;
+pip install -r ./project/requirements.txt;
 # install for model
-pip install -r ./keras_training/requirements.txt;
+pip install -r ./project/ml_training/requirements.txt;
 ```
 
 
@@ -38,9 +38,10 @@ gcloud projects add-iam-policy-binding "${GOOGLE_CLOUD_PROJECT}" --member "servi
 gcloud iam service-accounts keys create "${SERVICE_KEY_FILE}" --iam-account "${SERVICE_ACCOUNT_EMAIL}";
 
 # move to folders
-cp "${SERVICE_KEY_FILE}" "keras_training/";
-cp "${SERVICE_KEY_FILE}" "keras_webapi/";
+cp "${SERVICE_KEY_FILE}" "project/ml_training/";
+cp "${SERVICE_KEY_FILE}" "project/.";
 ```
+
 
 ## 3. Build and run containers
 
@@ -49,7 +50,7 @@ cp "${SERVICE_KEY_FILE}" "keras_webapi/";
 # build
 docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}" \
   --build-arg "MODEL_VERSION=${MODEL_VERSION}" \
-  --build-arg "JOB_DIR=${JOB_DIR}" -f "./keras_training/Dockerfile" "./keras_training";
+  --build-arg "JOB_DIR=${JOB_DIR}" -f "./project/ml_training/Dockerfile" "./project/ml_training";
 # run
 docker run -it --rm "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}";
 ```
@@ -58,7 +59,7 @@ docker run -it --rm "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSIO
 
 - Train in Google AI Platform
 ```bash
-cd "./keras_training";
+cd "./project/ml_training";
 gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${GOOGLE_CLOUD_PROJECT}" \
   --stream-logs \
   --python-version 3.7 \
@@ -70,6 +71,9 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${GOOGLE_CLOUD_
   -- \
   --job-version "${MODEL_VERSION}" --trainded-dir "${BUCKET_NAME}" \
   --verbosity DEBUG;
+
+# return to main dir  
+cd "../../";
 ```
 
 
@@ -78,15 +82,15 @@ gcloud ai-platform jobs submit training "${JOB_NAME}" --project "${GOOGLE_CLOUD_
 ### 4.A Server docker local
 ```bash
 # download model from GS
-mkdir -p "./${MODEL_NAME}";
+mkdir -p "./project/${MODEL_NAME}";
 gsutil cp -r "gs://${BUCKET_NAME}/${MODEL_NAME}/${MODEL_VERSION}" "./${MODEL_NAME}/";
 # build
-docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_serve:${MODEL_VERSION}" \
+docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/project/ml_serve:${MODEL_VERSION}" \
   --build-arg "MODEL_NAME=${MODEL_NAME}" \
   --build-arg "MODEL_LOCATION=./${MODEL_NAME}/${MODEL_VERSION}/" \
-  -f "./keras_serve/Dockerfile" "./";
+  -f "./project/ml_serve/Dockerfile" "./project/";
 # run
-docker run -it --rm --name keras_serve --net host -e APP_PORT=9090 -p 9090:9090 -p 8500:8500 "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_serve:${MODEL_VERSION}";
+docker run -it --rm --name ml_serve --net host -e APP_PORT=9090 -p 9090:9090 -p 8500:8500 "gcr.io/${GOOGLE_CLOUD_PROJECT}/project/ml_serve:${MODEL_VERSION}";
 
 # curl prediction
 curl -i -X POST -H "Content-Type: application/json" "http://localhost:9090/v1/models/${MODEL_NAME}:predict" -d "${BODY}";
@@ -109,11 +113,11 @@ echo "https://console.cloud.google.com/ai-platform/models/${MODEL_NAME}/versions
 ```
 
 
-### 5 Keras webapi
+### 5. Keras webapi
 
 ```bash
 # build
-docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_webapi:${MODEL_VERSION}" -f "./keras_webapi/Dockerfile" "./keras_webapi";
+docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_webapi:${MODEL_VERSION}" -f "./Dockerfile" "./project/";
 # run app
 docker run -it --rm --name keras_webapi -p 8080:8080 -e "GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT}" \
   "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_webapi:${MODEL_VERSION}";
@@ -134,4 +138,4 @@ curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/k
 | **Local**       | 1.1202626e-07     | 3.1044985e-07      | 1.1162208e-07       | 1.0275202e-06      | 4.7845255e-08       | 4.6996918e-04      | 1.3370330e-06      | 1.3858461e-02      | 4.8601555e-07      | 9.8566818e-01    |
 | **Container**   | -10.4870024       | -9.46771336        | -10.4906168         | -8.27083111        | -11.3377647         | -2.14531326        | -8.00752735        | 1.23867071         | -9.01949501        | 5.5030942        |
 | **GCP**         | -10.4870023727417 | -9.467713356018066 | -10.490616798400879 | -8.270831108093262 | -11.337764739990234 | -2.145313262939453 | -8.007527351379395 | 1.2386707067489624 | -9.019495010375977 | 5.50309419631958 |
-```json
+

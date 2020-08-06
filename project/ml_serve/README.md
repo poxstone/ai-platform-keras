@@ -1,7 +1,7 @@
 # Serve model on docker
 
 > **Note:** Previously execute ../README.md steps 1 and 2, enter to dir:
-  </br> `cd "./keras_serve"`
+  </br> `cd "./ml_serve"`
 
 ## 3. Build and run container
 - Build
@@ -9,7 +9,7 @@
 
 docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_serve:${MODEL_VERSION}" \
   --build-arg "MODEL_NAME=${MODEL_NAME}" \
-  --build-arg "MODEL_LOCATION=./keras_training/keras_model/${MODEL_VERSION}/" \
+  --build-arg "MODEL_LOCATION=./ml_training/keras_model/${MODEL_VERSION}/" \
   -f "Dockerfile" "../";
 ```
 - Run
