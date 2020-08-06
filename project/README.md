@@ -37,3 +37,16 @@ curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/k
 ```bash
 curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras-host" -d "${BODY}";
 ```
+
+## Tests
+- 
+```bash
+# install test tools
+pip install coverage pytest;
+
+# create .coverage state file with tests
+coverage run -m pytest tests/test_main.py;
+
+# generate xml
+coverage xml;
+```
