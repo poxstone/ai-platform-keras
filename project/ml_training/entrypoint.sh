@@ -14,5 +14,5 @@ gcloud ai-platform versions create "${MODEL_NAME}${MODEL_VERSION}" --project "${
   --framework "tensorflow" \
   --origin "${JOB_DIR}/${MODEL_NAME}/${MODEL_VERSION}/" \
   --runtime-version "2.1" \
-  --python-version "3.7";
-  --quiet
+  --python-version "3.7" \
+  --quite;
