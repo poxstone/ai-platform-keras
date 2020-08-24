@@ -56,7 +56,11 @@ docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}" 
 
 - Run container local
 ```bash
-docker run -it --rm "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}";
+docker run -it --rm --gpus all "gcr.io/${GOOGLE_CLOUD_PROJECT}/${MODEL_NAME}:${MODEL_VERSION}";
+```
+- Test gpu
+```bash
+nvcc --version;
 ```
 
 - Upload images to Google Container Registry
