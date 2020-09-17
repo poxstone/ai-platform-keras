@@ -26,3 +26,4 @@ service-key.json
 */dist/*
 */fashion_mnist.egg-info/*
 project/ml_training/model_doc/clothes_model/*
+project/ml_training/model_doc/model/
