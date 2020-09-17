@@ -15,5 +15,5 @@ export PORT="8080";
 export REGION="us-east1";
 export MODEL_PORT="9090";
 
-export BODY_PATH="${PWD}/project/ml_training/model_doc/w";
+export BODY_PATH="${PWD}/project/ml_training/model_doc/prediction_input.json";
 export BODY=`[[ -e "${BODY_PATH}" ]] && echo "$(cat ${BODY_PATH})" || echo 'NONE'`;

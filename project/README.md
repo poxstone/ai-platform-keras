@@ -38,15 +38,25 @@ curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/k
 curl -X POST -H 'Content-Type: application/json' "http://localhost:${PORT}/api/keras-host" -d "${BODY}";
 ```
 
-## Tests
-- 
-```bash
-# install test tools
-pip install coverage pytest;
+## Tests coverage
 
-# create .coverage state file with tests
-coverage run -m pytest tests/test_main.py;
-
-# generate xml
-coverage xml;
-```
+1. Install libraries
+   ```bash
+   # install test tools
+   pip install coverage pytest pytest-cov;
+   ```
+1. Edit or create file ".coveragerc" into ./project folder 
+   `touch .coveragerc;`
+1. Add ommited paths for not analize `.coveragerc` for `<source>path/project</source`:
+   ```bash
+   [run]
+   omit = /home/poxstone/.local/lib/python3.7/*,/usr/local/lib/python3.7/*
+   ```
+1. Create coverage.xml
+   ```bash
+   pytest --cov-config=.coveragerc -v --cov --cov-report xml
+   ```
+1. Run tests
+   ```bash
+   coverage run -m pytest tests/test_main.py;
+   ```

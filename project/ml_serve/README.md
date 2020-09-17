@@ -9,7 +9,7 @@
 
 docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/keras_serve:${MODEL_VERSION}" \
   --build-arg "MODEL_NAME=${MODEL_NAME}" \
-  --build-arg "MODEL_LOCATION=./ml_training/keras_model/${MODEL_VERSION}/" \
+  --build-arg "MODEL_LOCATION=./ml_training/${MODEL_NAME}/${MODEL_VERSION}/" \
   -f "Dockerfile" "../";
 ```
 - Run
