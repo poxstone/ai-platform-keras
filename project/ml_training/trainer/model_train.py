@@ -17,6 +17,13 @@ except ImportError:
 
 random.seed(666)
 
+# is GPU avalible
+#print('-----Is using GPU')
+#tf.test.is_gpu_available(cuda_only=False, min_cuda_compute_capability=None)
+#print('-----Is using CUDA')
+#tf.test.is_built_with_cuda()
+#print('end Is using GPU/CUDA------')
+
 def save_folder(job_version, save_path, gs_path, path=None):
     if not gs_path.endswith('/'):
         gs_path = '{}/'.format(gs_path)

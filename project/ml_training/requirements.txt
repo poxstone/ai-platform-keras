@@ -1,4 +1,4 @@
-tensorflow==2.2.0
+#tensorflow-gpu==2.2.0
 numpy==1.18.5
 matplotlib==3.2.1
 ipykernel==4.10.1

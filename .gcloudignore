@@ -42,3 +42,4 @@ model_doc/*
 dist/*
 clothes_model/*
 testkeras/*
+project/ml_training/model_doc/clothes_model/
