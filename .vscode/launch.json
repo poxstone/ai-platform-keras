@@ -38,7 +38,7 @@
       "program": "${workspaceFolder}/project/main.py",
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/project/service-key.json",
-        "GOOGLE_CLOUD_PROJECT": "co-grupoexito-motrecaban-dev",
+        "GOOGLE_CLOUD_PROJECT": "co-oortiz-internal",
         "MODEL_NAME": "testkeras",
         "PORT": "8080",
       },

@@ -41,4 +41,4 @@ fashion_mnist.egg-info/*
 model_doc/*
 dist/*
 clothes_model/*
-keras_model/*
+testkeras/*

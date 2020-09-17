@@ -17,6 +17,7 @@ python3 -m virtualenv ./venv;
 source ./venv/bin/activate;
 # install for weapp
 pip install -r ./project/requirements.txt;
+pip install -r ./project/requirements_dev.txt;
 # install for model
 pip install -r ./project/ml_training/requirements.txt;
 ```
@@ -87,7 +88,7 @@ gsutil cp -r "gs://${BUCKET_NAME}/${MODEL_NAME}/${MODEL_VERSION}" "./${MODEL_NAM
 # build
 docker build -t "gcr.io/${GOOGLE_CLOUD_PROJECT}/project/ml_serve:${MODEL_VERSION}" \
   --build-arg "MODEL_NAME=${MODEL_NAME}" \
-  --build-arg "MODEL_LOCATION=./${MODEL_NAME}/${MODEL_VERSION}/" \
+  --build-arg "MODEL_LOCATION=./ml_training/${MODEL_NAME}/${MODEL_VERSION}/" \
   -f "./project/ml_serve/Dockerfile" "./project/";
 # run
 docker run -it --rm --name ml_serve --net host -e APP_PORT=9090 -p 9090:9090 -p 8500:8500 "gcr.io/${GOOGLE_CLOUD_PROJECT}/project/ml_serve:${MODEL_VERSION}";

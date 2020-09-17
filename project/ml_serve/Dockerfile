@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
-ARG MODEL_NAME="keras_model"
-ARG MODEL_LOCATION="./ml_training/keras_model/8/"
+ARG MODEL_NAME="testkeras"
+ARG MODEL_LOCATION="./ml_training/testkeras/8/"
 
 ENV APP_PATH="/model"
 ENV MODEL_NAME="${MODEL_NAME}"
