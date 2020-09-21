@@ -6,8 +6,8 @@ import cv2 as cv
 
 
 def clothes_model():
-    MODEL_NAME = 'clothes_model'  # folder dir
-    MODEL_NAME = '{}/clothes.h5'.format(MODEL_NAME)  # h5 dir
+    MODEL_NAME = 'model_test'  # folder dir
+    MODEL_NAME = '{}/model.h5'.format(MODEL_NAME)  # h5 dir
     IMG_INDEX = 1
     CLASS_NAMES = ['T-shirt/top', 'Trouser', 'Pullover', 'Dress', 'Coat',
                    'Sandal', 'Shirt', 'Sneaker', 'Bag', 'Ankle boot']
@@ -19,6 +19,7 @@ def clothes_model():
 
     # load model and make prediction raw
     model = tf.keras.models.load_model(MODEL_NAME)
+
     model.summary()
     probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
 

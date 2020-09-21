@@ -1,4 +1,4 @@
-FROM gcr.io/deeplearning-platform-release/tf2-cpu.2-2
+FROM gcr.io/deeplearning-platform-release/tf2-gpu.2-2
 #FROM tensorflow/tensorflow:nightly
 
 ARG KEY_SERVICE="./service-key.json"
