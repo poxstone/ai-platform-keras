@@ -34,15 +34,26 @@ def clothes_model():
     print("Predictions: {}".format(str(predictions[0])))
     print("Label: {}".format(label))
 
-#clothes_model()
+
+def minist_classification():
+    MODEL_NAME = 'walkthrough'
+    model = tf.keras.models.load_model(MODEL_NAME)
+    predict_dataset = tf.convert_to_tensor([
+        [5.1, 3.3, 1.7, 0.5,],
+        [5.9, 3.0, 4.2, 1.5,],
+        [6.9, 3.1, 5.4, 2.1]
+    ])
+    predictions = model(predict_dataset, training=False)
+
+    print(str(predictions))
 
 
-def another_model():
+def walthrough_classification():
     CLASS_NAMES = ['Shoe', 'Movil', 'Bed', 'Book', 'Sofa']
 
-    n_model = tf.keras.models.load_model('model/model.h5')
+    n_model = tf.keras.models.load_model('model_minist/model.h5')
     
-    img_array = plt.imread('{}/image2.jpg'.format('./model'))
+    img_array = plt.imread('{}/image2.jpg'.format('./model_minist'))
     #im = cv.imread('{}/image2.jpg'.format('./model'))
     #im = cv.imread('IMG/cel.png')
     #img = (np.expand_dims(im/255.0,0))
@@ -65,7 +76,8 @@ def another_model():
     print("prediction: {}".format(preds))
 
 #another_model()
-clothes_model()
+#clothes_model()
+walthrough_classification()
 
 
 ###

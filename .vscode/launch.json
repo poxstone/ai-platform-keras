@@ -5,6 +5,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Current File",
+      "type": "python",
+      "request": "launch",
+      "console": "internalConsole",
+      "program": "${file}",
+    },
+    {
       "name": "training model",
       "type": "python",
       "request": "launch",
@@ -12,7 +19,10 @@
       "console": "internalConsole",
       "program": "${workspaceFolder}/project/ml_training/trainer/task.py",
       "args": [
-        "--job-version", "11", "--trainded-dir", "gs://co-oortiz-internal-model/"
+        "--job-version",
+        "11",
+        "--trainded-dir",
+        "gs://co-oortiz-internal-model/"
       ],
       "env": {
         "GOOGLE_APPLICATION_CREDENTIALS": "${workspaceFolder}/project/webservice-key.json",
@@ -26,7 +36,12 @@
       "console": "internalConsole",
       "program": "${workspaceFolder}/project/ml_training/trainer/task.py",
       "args": [
-        "--job-version", "11", "--is-test", "true", "--img-index", "0"
+        "--job-version",
+        "11",
+        "--is-test",
+        "true",
+        "--img-index",
+        "0"
       ]
     },
     {

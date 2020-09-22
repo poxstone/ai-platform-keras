@@ -28,3 +28,6 @@ service-key.json
 project/ml_training/model_doc/clothes_model/*
 project/ml_training/model_doc/model/
 project/ml_training/model_test/
+project/ml_training/model_doc/model_walkthrough/
+project/ml_training/model_doc/model_minist/
+model_trained/
