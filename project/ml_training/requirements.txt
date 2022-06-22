@@ -1,5 +1,5 @@
 #tensorflow-gpu==2.2.0
-numpy==1.18.5
+numpy==1.22.0
 matplotlib==3.2.1
 ipykernel==4.10.1
 pandas==1.0.4
