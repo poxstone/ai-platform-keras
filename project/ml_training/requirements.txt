@@ -4,4 +4,4 @@ matplotlib==3.2.1
 ipykernel==4.10.1
 pandas==1.0.4
 #google-colab==1.0.0
-protobuf==3.12.2
+protobuf==3.18.3
